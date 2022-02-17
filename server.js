@@ -31,10 +31,12 @@ async function init() {
         fn.addDepartment(db, newDepartment);
         break;
       case 'Add employee':
-        let managers = await db.getManagers();
-        let roles = await db.getRoles();
+        const managers = await db.getManagers();
+        const roles = await db.getRoles();
         const employee = await questions.addEmployee(roles, managers);
-        fn.addEmployee(db, employee);
+        const roleID = await db.getRoleId(employee.role);
+
+        fn.addEmployee(db, employee, roleID);
         break;
       case 'Add role':
         roles = await db.getRoles();

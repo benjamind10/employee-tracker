@@ -43,8 +43,7 @@ const fn = {
     console.log(`Added department named ${departmentName}`);
   },
 
-  addEmployee: async function addEmployee(db, employee) {
-    const roleID = await getRoleId(db, employee.role);
+  addEmployee: async function addEmployee(db, employee, roleID) {
     const managerID = await getID(db, employee.manager);
 
     const query =
@@ -52,7 +51,7 @@ const fn = {
     const args = [
       employee.first_name,
       employee.last_name,
-      roleID,
+      roleID[0].id,
       managerID,
     ];
 
@@ -75,13 +74,6 @@ const fn = {
     console.log('update employee');
   },
 };
-
-async function getRoleId(db, roleName) {
-  let query = 'SELECT * FROM role WHERE role.title=?';
-  let args = [roleName];
-  const rows = await db.query(query, args);
-  return rows[0].id;
-}
 
 async function getID(db, name) {
   let employee = name.split(' ');
