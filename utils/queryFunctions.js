@@ -1,12 +1,27 @@
 const cTable = require('console.table');
 
 async function renderEmployees(db) {
-  console.log('');
+  const query = `   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
+    FROM employees 
+        JOIN role ON role.id = employees.role_id 
+        JOIN department ON role.department_id = department.id 
+        ORDER BY employees.id;`;
 
-  // SELECT * FROM employee;
-  let query = 'SELECT * FROM employees';
   const rows = await db.query(query);
   console.table(rows);
 }
 
-module.exports = { renderEmployees };
+async function renderDepartments(db) {
+  const query =
+    ' SELECT department.name AS departments FROM department;';
+  const rows = await db.query(query);
+  console.table(rows);
+}
+
+async function renderRoles(db) {
+  const query = `SELECT * FROM role`;
+  const rows = await db.query(query);
+  console.table(rows);
+}
+
+module.exports = { renderEmployees, renderDepartments, renderRoles };
