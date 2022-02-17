@@ -5,9 +5,14 @@ const {
   renderDepartments,
   renderRoles,
 } = require('./utils/queryFunctions');
+const mainQuestions = require('./utils/questions');
 
 const db = new Database(config);
 
-renderEmployees(db);
-renderDepartments(db);
-renderRoles(db);
+function init() {
+  mainQuestions().then(response => {
+    renderEmployees(db);
+  });
+}
+
+init();

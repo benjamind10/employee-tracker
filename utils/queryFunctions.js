@@ -1,7 +1,8 @@
 const cTable = require('console.table');
 
 async function renderEmployees(db) {
-  const query = `   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
+  const query = `   
+  SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
     FROM employees 
         JOIN role ON role.id = employees.role_id 
         JOIN department ON role.department_id = department.id 
