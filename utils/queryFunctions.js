@@ -39,13 +39,28 @@ const fn = {
     const query = 'INSERT into department (name) VALUES (?)';
     const args = [departmentName];
     const rows = await db.query(query, args);
+
     console.log(`Added department named ${departmentName}`);
   },
 
   addEmployee: async function addEmployee(db, employee) {
     const roleID = await getRoleId(db, employee.role);
+    const managerID = await getID(db, employee.manager);
+
+    const query =
+      'INSERT into employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)';
+    const args = [
+      employee.first_name,
+      employee.last_name,
+      roleID,
+      managerID,
+    ];
+
+    const rows = await db.query(query, args);
     console.log('');
-    console.log(roleID);
+    console.log(
+      `Added employee ${employee.first_name} ${employee.last_name}.`
+    );
   },
 
   addRole: async function addRole(db) {
@@ -64,6 +79,16 @@ const fn = {
 async function getRoleId(db, roleName) {
   let query = 'SELECT * FROM role WHERE role.title=?';
   let args = [roleName];
+  const rows = await db.query(query, args);
+  return rows[0].id;
+}
+
+async function getID(db, name) {
+  let employee = name.split(' ');
+
+  let query =
+    'SELECT id FROM employees WHERE employees.first_name = ? AND employees.last_name = ?';
+  let args = [employee[0], employee[1]];
   const rows = await db.query(query, args);
   return rows[0].id;
 }
