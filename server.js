@@ -1,3 +1,2 @@
 const credentials = require('./credentials');
-
-console.log(credentials.password);
+const cTable = require('console.table');
