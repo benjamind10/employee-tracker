@@ -1,17 +1,7 @@
 const config = require('./db/connection');
 const Database = require('./lib/Database');
 const mainQuestions = require('./utils/questions');
-const {
-  renderEmployees,
-  renderDepartments,
-  renderRoles,
-  renderEmployeeDepartment,
-  addDepartment,
-  addEmployee,
-  addRole,
-  removeEmployee,
-  updateEmployee,
-} = require('./utils/queryFunctions');
+const fn = require('./utils/queryFunctions');
 
 const db = new Database(config);
 
@@ -22,31 +12,31 @@ async function init() {
 
     switch (response.action) {
       case 'View all employees':
-        renderEmployees(db);
+        fn.renderEmployees(db);
         break;
       case 'View all departments':
-        renderDepartments(db);
+        fn.renderDepartments(db);
         break;
       case 'View all employees by department':
-        renderEmployeeDepartment(db);
+        fn.renderEmpDepartment(db);
         break;
       case 'View all roles':
-        renderRoles(db);
+        fn.renderRoles(db);
         break;
       case 'Add department':
-        addDepartment(db);
+        fn.addDepartment(db);
         break;
       case 'Add employee':
-        addEmployee(db);
+        fn.addEmployee(db);
         break;
       case 'Add role':
-        addRole(db);
+        fn.addRole(db);
         break;
       case 'Remove employee':
-        removeEmployee(db);
+        fn.removeEmployee(db);
         break;
       case 'Update employee role':
-        updateEmployee(db);
+        fn.updateEmployee(db);
         break;
       default:
         kill = true;
