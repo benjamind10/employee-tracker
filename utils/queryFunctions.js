@@ -9,6 +9,7 @@ async function renderEmployees(db) {
         ORDER BY employees.id;`;
 
   const rows = await db.query(query);
+  console.log('');
   console.table(rows);
 }
 
@@ -25,4 +26,38 @@ async function renderRoles(db) {
   console.table(rows);
 }
 
-module.exports = { renderEmployees, renderDepartments, renderRoles };
+async function renderEmployeeDepartment(db) {
+  console.log('render employee dpt');
+}
+
+async function addDepartment(db) {
+  console.log('add dpt');
+}
+
+async function addEmployee(db) {
+  console.log('add employee');
+}
+
+async function addRole(db) {
+  console.log('add role');
+}
+
+async function removeEmployee(db) {
+  console.log('rem employee');
+}
+
+async function updateEmployee(db) {
+  console.log('update employee');
+}
+
+module.exports = {
+  renderEmployees,
+  renderDepartments,
+  renderRoles,
+  renderEmployeeDepartment,
+  addDepartment,
+  addEmployee,
+  addRole,
+  removeEmployee,
+  updateEmployee,
+};
