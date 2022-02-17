@@ -1,7 +1,27 @@
 const cTable = require('console.table');
+const questions = require('./questions');
 
 const fn = {
   renderEmployees: async function renderEmployees(db) {
+    const query = 'SELECT * FROM employees;';
+
+    const rows = await db.query(query);
+    console.log('');
+    console.table(rows);
+  },
+  renderDepartments: async function renderDepartments(db) {
+    const query = ' SELECT * FROM department;';
+    const rows = await db.query(query);
+    console.log('');
+    console.table(rows);
+  },
+  renderRoles: async function renderRoles(db) {
+    const query = `SELECT * FROM role`;
+    const rows = await db.query(query);
+    console.log('');
+    console.table(rows);
+  },
+  renderEmpDepartment: async function renderEmployeeDepartment(db) {
     const query = `   
   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
     FROM employees 
@@ -13,22 +33,13 @@ const fn = {
     console.log('');
     console.table(rows);
   },
-  renderDepartments: async function renderDepartments(db) {
-    const query =
-      ' SELECT department.name AS departments FROM department;';
-    const rows = await db.query(query);
-    console.table(rows);
-  },
-  renderRoles: async function renderRoles(db) {
-    const query = `SELECT * FROM role`;
-    const rows = await db.query(query);
-    console.table(rows);
-  },
-  renderEmpDepartment: async function renderEmployeeDepartment(db) {
-    console.log('render employee dpt');
-  },
-  addDepartment: async function addDepartment(db) {
-    console.log('add dpt');
+  addDepartment: async function addDepartment(db, newDapartment) {
+    const departmentName = newDapartment.departmentName;
+
+    const query = 'INSERT into department (name) VALUES (?)';
+    const args = [departmentName];
+    const rows = await db.query(query, args);
+    console.log(`Added department named ${departmentName}`);
   },
 
   addEmployee: async function addEmployee(db) {

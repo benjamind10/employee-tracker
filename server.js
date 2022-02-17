@@ -1,14 +1,14 @@
 const config = require('./db/connection');
 const Database = require('./lib/Database');
-const mainQuestions = require('./utils/questions');
 const fn = require('./utils/queryFunctions');
+const questions = require('./utils/questions');
 
 const db = new Database(config);
 
 async function init() {
   let kill = false;
   while (!kill) {
-    const response = await mainQuestions();
+    const response = await questions.mainQuestions();
 
     switch (response.action) {
       case 'View all employees':
@@ -24,7 +24,8 @@ async function init() {
         fn.renderRoles(db);
         break;
       case 'Add department':
-        fn.addDepartment(db);
+        const newDepartment = await questions.getDepartment();
+        fn.addDepartment(db, newDepartment);
         break;
       case 'Add employee':
         fn.addEmployee(db);
@@ -46,3 +47,8 @@ async function init() {
 }
 
 init();
+
+process.on('SIGINT', function () {
+  console.log('Interrupted!');
+  process.exit();
+});
