@@ -16,7 +16,7 @@ const fn = {
     console.table(rows);
   },
   renderRoles: async function renderRoles(db) {
-    const query = `SELECT * FROM role`;
+    const query = `SELECT role.id, role.title, role.salary FROM role JOIN department ON role.department_id = department.id;`;
     const rows = await db.query(query);
     console.log('');
     console.table(rows);
@@ -42,8 +42,10 @@ const fn = {
     console.log(`Added department named ${departmentName}`);
   },
 
-  addEmployee: async function addEmployee(db) {
-    console.log('add employee');
+  addEmployee: async function addEmployee(db, employee) {
+    const roleID = await getRoleId(db, employee.role);
+    console.log('');
+    console.log(roleID);
   },
 
   addRole: async function addRole(db) {
@@ -58,5 +60,12 @@ const fn = {
     console.log('update employee');
   },
 };
+
+async function getRoleId(db, roleName) {
+  let query = 'SELECT * FROM role WHERE role.title=?';
+  let args = [roleName];
+  const rows = await db.query(query, args);
+  return rows[0].id;
+}
 
 module.exports = fn;

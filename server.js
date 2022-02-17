@@ -2,6 +2,9 @@ const config = require('./db/connection');
 const Database = require('./lib/Database');
 const fn = require('./utils/queryFunctions');
 const questions = require('./utils/questions');
+const logo = require('asciiart-logo');
+const render_text = require('./package.json');
+console.log(logo(render_text).render());
 
 const db = new Database(config);
 
@@ -28,10 +31,15 @@ async function init() {
         fn.addDepartment(db, newDepartment);
         break;
       case 'Add employee':
-        fn.addEmployee(db);
+        let managers = await db.getManagers();
+        let roles = await db.getRoles();
+        const employee = await questions.addEmployee(roles, managers);
+        fn.addEmployee(db, employee);
         break;
       case 'Add role':
-        fn.addRole(db);
+        roles = await db.getRoles();
+        console.log(roles);
+        // fn.addRole(db);
         break;
       case 'Remove employee':
         fn.removeEmployee(db);

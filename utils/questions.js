@@ -32,6 +32,38 @@ const questions = {
       },
     ]);
   },
+  addEmployee: async function addEmployee(roles, managers) {
+    return prompt([
+      {
+        type: 'input',
+        name: 'first_name',
+        message: "What is the employee's first name?",
+      },
+      {
+        type: 'input',
+        name: 'last_name',
+        message: "What is the employee's last name?",
+      },
+      {
+        type: 'list',
+        message: "What is the employee's role?",
+        name: 'role',
+        choices: [
+          // populate from db
+          ...roles,
+        ],
+      },
+      {
+        type: 'list',
+        message: "Who is the employee's manager?",
+        name: 'manager',
+        choices: [
+          // populate from db
+          ...managers,
+        ],
+      },
+    ]);
+  },
 };
 
 module.exports = questions;
