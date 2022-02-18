@@ -1,5 +1,4 @@
 const cTable = require('console.table');
-const questions = require('./questions');
 
 const fn = {
   renderEmployees: async function renderEmployees(db) {
@@ -65,8 +64,18 @@ const fn = {
     );
   },
 
-  addRole: async function addRole(db) {
-    console.log('add role');
+  addRole: async function addRole(db, newDept, deptID) {
+    const name = newDept.roleName;
+    const salary = newDept.salary;
+    const departmentID = deptID[0].id;
+
+    let args = [name, salary, departmentID];
+    const query =
+      'INSERT into role (title, salary, department_id) VALUES (?,?,?)';
+
+    const rows = await db.query(query, args);
+    console.log('');
+    console.log(`${name} added.`);
   },
 
   removeEmployee: async function removeEmployee(db) {

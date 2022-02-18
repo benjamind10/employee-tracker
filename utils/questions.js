@@ -64,6 +64,29 @@ const questions = {
       },
     ]);
   },
+  addRole: async function addRole(deptNames) {
+    return inquirer.prompt([
+      {
+        type: 'input',
+        message: 'What is the title of the new role?',
+        name: 'roleName',
+      },
+      {
+        type: 'input',
+        message: 'What is the salary of the new role?',
+        name: 'salary',
+      },
+      {
+        type: 'list',
+        message: 'Which department uses this role?',
+        name: 'departmentName',
+        choices: [
+          // populate from db
+          ...deptNames,
+        ],
+      },
+    ]);
+  },
 };
 
 module.exports = questions;

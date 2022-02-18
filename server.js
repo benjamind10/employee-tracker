@@ -39,8 +39,10 @@ async function init() {
         fn.addEmployee(db, employee, roleID, managerID[0].id);
         break;
       case 'Add role':
-        console.log(roles);
-        // fn.addRole(db);
+        const departments = await db.getDptNames(db);
+        const newDept = await questions.addRole(departments);
+        const deptID = await db.getDeptID(newDept.departmentName);
+        fn.addRole(db, newDept, deptID);
         break;
       case 'Remove employee':
         fn.removeEmployee(db);
