@@ -8,18 +8,21 @@ const fn = {
     console.log('');
     console.table(rows);
   },
+
   renderDepartments: async function renderDepartments(db) {
     const query = ' SELECT * FROM department;';
     const rows = await db.query(query);
     console.log('');
     console.table(rows);
   },
+
   renderRoles: async function renderRoles(db) {
     const query = `SELECT role.id, role.title, role.salary FROM role JOIN department ON role.department_id = department.id;`;
     const rows = await db.query(query);
     console.log('');
     console.table(rows);
   },
+
   renderEmpDepartment: async function renderEmployeeDepartment(db) {
     const query = `   
   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
@@ -32,6 +35,7 @@ const fn = {
     console.log('');
     console.table(rows);
   },
+
   addDepartment: async function addDepartment(db, newDapartment) {
     const departmentName = newDapartment.departmentName;
 
@@ -78,8 +82,15 @@ const fn = {
     console.log(`${name} added.`);
   },
 
-  removeEmployee: async function removeEmployee(db) {
-    console.log('rem employee');
+  removeEmployee: async function removeEmployee(db, employee) {
+    const query =
+      'DELETE FROM employees WHERE first_name = ? AND last_name = ?';
+    const split = employee.split(' ');
+    const args = [split[0], split[1]];
+
+    const rows = db.query(query, args);
+    console.log('');
+    console.log(`Removed: ${employee}`);
   },
 
   updateEmployee: async function updateEmployee(db) {

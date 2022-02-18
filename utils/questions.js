@@ -64,6 +64,19 @@ const questions = {
       },
     ]);
   },
+  deleteEmployee: async function deleteEmployee(employees) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'Which employee do you want to remove?',
+        name: 'employeeName',
+        choices: [
+          // populate from db
+          ...employees,
+        ],
+      },
+    ]);
+  },
   addRole: async function addRole(deptNames) {
     return inquirer.prompt([
       {
