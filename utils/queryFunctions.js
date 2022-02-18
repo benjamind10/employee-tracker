@@ -43,9 +43,12 @@ const fn = {
     console.log(`Added department named ${departmentName}`);
   },
 
-  addEmployee: async function addEmployee(db, employee, roleID) {
-    const managerID = await getID(db, employee.manager);
-
+  addEmployee: async function addEmployee(
+    db,
+    employee,
+    roleID,
+    managerID
+  ) {
     const query =
       'INSERT into employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)';
     const args = [
@@ -74,15 +77,5 @@ const fn = {
     console.log('update employee');
   },
 };
-
-async function getID(db, name) {
-  let employee = name.split(' ');
-
-  let query =
-    'SELECT id FROM employees WHERE employees.first_name = ? AND employees.last_name = ?';
-  let args = [employee[0], employee[1]];
-  const rows = await db.query(query, args);
-  return rows[0].id;
-}
 
 module.exports = fn;

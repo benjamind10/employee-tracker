@@ -12,6 +12,8 @@ async function init() {
   let kill = false;
   while (!kill) {
     const response = await questions.mainQuestions();
+    const managers = await db.getManagers();
+    const roles = await db.getRoles();
 
     switch (response.action) {
       case 'View all employees':
@@ -31,15 +33,12 @@ async function init() {
         fn.addDepartment(db, newDepartment);
         break;
       case 'Add employee':
-        const managers = await db.getManagers();
-        const roles = await db.getRoles();
         const employee = await questions.addEmployee(roles, managers);
         const roleID = await db.getRoleId(employee.role);
-
-        fn.addEmployee(db, employee, roleID);
+        const managerID = await db.getEmployeeID(employee.manager);
+        fn.addEmployee(db, employee, roleID, managerID[0].id);
         break;
       case 'Add role':
-        roles = await db.getRoles();
         console.log(roles);
         // fn.addRole(db);
         break;
