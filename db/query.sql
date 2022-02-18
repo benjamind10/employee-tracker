@@ -30,4 +30,4 @@ SELECT * FROM role;
 -- View employees by department
 SELECT first_name, last_name, department.name FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
 
-SELECT role.id, role.title, role.salary FROM role JOIN department ON role.department_id = department.id;
+SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON department.id = role.department_id;

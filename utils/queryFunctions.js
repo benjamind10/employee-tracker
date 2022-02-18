@@ -19,7 +19,7 @@ const fn = {
   },
 
   renderRoles: async function renderRoles(db) {
-    const query = `SELECT role.id, role.title, role.salary FROM role JOIN department ON role.department_id = department.id;`;
+    const query = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON department.id = role.department_id;`;
     const rows = await db.query(query);
     console.log('');
     console.table(rows);
@@ -105,7 +105,7 @@ const fn = {
 
     const rows = await db.query(query, args);
     console.log('');
-    console.log(`Updated:`);
+    console.log(`Updated: ${employee}`);
   },
 };
 
