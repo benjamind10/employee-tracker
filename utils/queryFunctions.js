@@ -90,7 +90,7 @@ const fn = {
     const split = employee.split(' ');
     const args = [split[0], split[1]];
 
-    const rows = db.query(query, args);
+    const rows = await db.query(query, args);
     console.log('');
     console.log(`Removed: ${employee}`);
   },

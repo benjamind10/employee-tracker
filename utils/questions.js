@@ -50,19 +50,13 @@ const questions = {
         type: 'list',
         message: "What is the employee's role?",
         name: 'role',
-        choices: [
-          // populate from db
-          ...roles,
-        ],
+        choices: [...roles],
       },
       {
         type: 'list',
         message: "Who is the employee's manager?",
         name: 'manager',
-        choices: [
-          // populate from db
-          ...managers,
-        ],
+        choices: [...managers],
       },
     ]);
   },
@@ -72,10 +66,7 @@ const questions = {
         type: 'list',
         message: 'Which employee do you want to remove?',
         name: 'employeeName',
-        choices: [
-          // populate from db
-          ...employees,
-        ],
+        choices: [...employees],
       },
     ]);
   },
@@ -95,10 +86,7 @@ const questions = {
         type: 'list',
         message: 'Which department uses this role?',
         name: 'departmentName',
-        choices: [
-          // populate from db
-          ...deptNames,
-        ],
+        choices: [...deptNames],
       },
     ]);
   },
