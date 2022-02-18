@@ -1,6 +1,8 @@
+// Imports
 const inquirer = require('inquirer');
 const prompt = inquirer.prompt;
 
+// Inquirer object that holds all questions
 const questions = {
   mainQuestions: async function mainQuestions() {
     return prompt([

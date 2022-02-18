@@ -1,5 +1,7 @@
+// Imports
 const cTable = require('console.table');
 
+// Main object that holds async functions
 const fn = {
   renderEmployees: async function renderEmployees(db) {
     const query = 'SELECT * FROM employees;';

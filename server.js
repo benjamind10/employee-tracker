@@ -1,20 +1,27 @@
+// Imports
 const config = require('./db/connection');
 const Database = require('./lib/Database');
 const fn = require('./utils/queryFunctions');
 const qs = require('./utils/questions');
+
+// Logo for app
 const logo = require('asciiart-logo');
 const render_text = require('./package.json');
 console.log(logo(render_text).render());
 
+// Creates a new DB object
 const db = new Database(config);
 
+// Function that initalizes app
 async function init() {
+  // Defines a variable to keep the loop active
   let kill = false;
   while (!kill) {
     const response = await qs.mainQuestions();
     const managers = await db.getManagers();
     const roles = await db.getRoles();
 
+    // Switch statement listening for any selection
     switch (response.action) {
       case 'View all employees':
         fn.renderEmployees(db);
@@ -61,6 +68,7 @@ async function init() {
 
 init();
 
+// Checks for Ctrl + C interruption
 process.on('SIGINT', function () {
   console.log('Interrupted!');
   process.exit();
