@@ -87,16 +87,25 @@ const fn = {
   removeEmployee: async function removeEmployee(db, employee) {
     const query =
       'DELETE FROM employees WHERE first_name = ? AND last_name = ?';
-    const split = employee.split(' ');
-    const args = [split[0], split[1]];
+    const name = employee.split(' ');
+    const args = [name[0], name[1]];
 
     const rows = await db.query(query, args);
     console.log('');
     console.log(`Removed: ${employee}`);
   },
 
-  updateEmployee: async function updateEmployee(db) {
-    console.log('update employee');
+  updateEmployee: async function updateEmployee(db, employee, role) {
+    const name = employee.split(' ');
+    const newRole = role[0].id;
+    console.log(newRole);
+    const query =
+      'UPDATE employees SET role_id = ? WHERE employees.first_name = ? AND employees.last_name = ?';
+    const args = [newRole, name[0], name[1]];
+
+    const rows = await db.query(query, args);
+    console.log('');
+    console.log(`Updated:`);
   },
 };
 

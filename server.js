@@ -7,6 +7,7 @@ const qs = require('./utils/questions');
 // Logo for app
 const logo = require('asciiart-logo');
 const render_text = require('./package.json');
+const { up } = require('inquirer/lib/utils/readline');
 console.log(logo(render_text).render());
 
 // Creates a new DB object
@@ -20,6 +21,7 @@ async function init() {
     const response = await qs.mainQuestions();
     const managers = await db.getManagers();
     const roles = await db.getRoles();
+    const employees = await db.getNames();
 
     // Switch statement listening for any selection
     switch (response.action) {
@@ -42,6 +44,7 @@ async function init() {
       case 'Add employee':
         const employee = await qs.addEmployee(roles, managers);
         const roleID = await db.getRoleID(employee.role);
+        console.log(roleID);
         const managerID = await db.getEmployeeID(employee.manager);
         fn.addEmployee(db, employee, roleID, managerID[0].id);
         break;
@@ -52,12 +55,13 @@ async function init() {
         fn.addRole(db, newDept, deptID);
         break;
       case 'Remove employee':
-        const employees = await db.getNames();
         const delEmployee = await qs.deleteEmployee(employees);
         fn.removeEmployee(db, delEmployee.employeeName);
         break;
       case 'Update employee role':
-        fn.updateEmployee(db);
+        const updatedEmp = await qs.updateEmployee(employees, roles);
+        const newRoleID = await db.getRoleID(updatedEmp.role);
+        fn.updateEmployee(db, updatedEmp.employeeName, newRoleID);
         break;
       default:
         kill = true;

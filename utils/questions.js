@@ -25,6 +25,7 @@ const questions = {
       },
     ]);
   },
+
   getDepartment: async function getDepartment() {
     return prompt([
       {
@@ -34,6 +35,7 @@ const questions = {
       },
     ]);
   },
+
   addEmployee: async function addEmployee(roles, managers) {
     return prompt([
       {
@@ -60,6 +62,7 @@ const questions = {
       },
     ]);
   },
+
   deleteEmployee: async function deleteEmployee(employees) {
     return prompt([
       {
@@ -70,6 +73,24 @@ const questions = {
       },
     ]);
   },
+
+  updateEmployee: async function updateEmployee(employees, roles) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'Which employee do you want to update?',
+        name: 'employeeName',
+        choices: [...employees],
+      },
+      {
+        type: 'list',
+        message: "What is the employee's new role?",
+        name: 'role',
+        choices: [...roles],
+      },
+    ]);
+  },
+
   addRole: async function addRole(deptNames) {
     return inquirer.prompt([
       {
