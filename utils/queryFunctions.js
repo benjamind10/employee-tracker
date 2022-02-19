@@ -8,34 +8,35 @@ const fn = {
 
     const rows = await db.query(query);
     console.log('');
-    console.table(rows);
+    return rows;
   },
 
   renderDepartments: async function renderDepartments(db) {
     const query = ' SELECT * FROM department;';
     const rows = await db.query(query);
     console.log('');
-    console.table(rows);
+    return rows;
   },
 
   renderRoles: async function renderRoles(db) {
     const query = `SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON department.id = role.department_id;`;
     const rows = await db.query(query);
     console.log('');
-    console.table(rows);
+    return rows;
   },
 
   renderEmpDepartment: async function renderEmployeeDepartment(db) {
     const query = `   
-  SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, employees.manager_id 
+   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, e2.first_name AS manager_fn, e2.last_name AS manager_ln
     FROM employees 
         JOIN role ON role.id = employees.role_id 
         JOIN department ON role.department_id = department.id 
+        LEFT JOIN employees AS e2 ON employees.manager_id = e2.id
         ORDER BY employees.id;`;
 
     const rows = await db.query(query);
     console.log('');
-    console.table(rows);
+    return rows;
   },
 
   addDepartment: async function addDepartment(db, newDapartment) {
@@ -45,7 +46,8 @@ const fn = {
     const args = [departmentName];
     const rows = await db.query(query, args);
 
-    console.log(`Added department named ${departmentName}`);
+    console.log('');
+    return `Added department named ${departmentName}`;
   },
 
   addEmployee: async function addEmployee(
@@ -65,9 +67,7 @@ const fn = {
 
     const rows = await db.query(query, args);
     console.log('');
-    console.log(
-      `Added employee ${employee.first_name} ${employee.last_name}.`
-    );
+    return `Added employee ${employee.first_name} ${employee.last_name}.`;
   },
 
   addRole: async function addRole(db, newDept, deptID) {
@@ -92,7 +92,7 @@ const fn = {
 
     const rows = await db.query(query, args);
     console.log('');
-    console.log(`Removed: ${employee}`);
+    return `Removed: ${employee}`;
   },
 
   updateEmployee: async function updateEmployee(db, employee, role) {
@@ -105,7 +105,7 @@ const fn = {
 
     const rows = await db.query(query, args);
     console.log('');
-    console.log(`Updated: ${employee}`);
+    return `Updated: ${employee}`;
   },
 };
 
