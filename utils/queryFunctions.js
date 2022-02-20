@@ -1,6 +1,3 @@
-// Imports
-const cTable = require('console.table');
-
 // Main object that holds async functions
 const fn = {
   renderEmployees: async function renderEmployees(db) {
@@ -93,7 +90,6 @@ const fn = {
   updateEmployee: async function updateEmployee(db, employee, role) {
     const name = employee.split(' ');
     const newRole = role[0].id;
-    console.log(newRole);
     const query =
       'UPDATE employees SET role_id = ? WHERE employees.first_name = ? AND employees.last_name = ?';
     const args = [newRole, name[0], name[1]];
@@ -101,6 +97,18 @@ const fn = {
     const rows = await db.query(query, args);
     console.log('');
     return `Updated: ${employee}`;
+  },
+
+  updateManager: async function updateManager(db, employee, manager) {
+    const name = employee.employeeName.split(' ');
+    const managerID = manager[0].id;
+    const query =
+      'UPDATE employees SET manager_id = ? WHERE employees.first_name = ? AND employees.last_name = ?';
+    const args = [managerID, name[0], name[1]];
+
+    const rows = await db.query(query, args);
+    console.log('');
+    return `Updated: ${employee.employeeName}`;
   },
 };
 

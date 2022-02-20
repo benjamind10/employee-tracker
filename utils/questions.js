@@ -15,11 +15,15 @@ const questions = {
           'View all roles',
           'View all employees',
           'View all employees by department',
+          'View by manager',
           'Add department',
           'Add role',
           'Add employee',
           'Remove employee',
+          'Remove department',
+          'Remove Role',
           'Update employee role',
+          'Update employee manager',
           'Exit',
         ],
       },
@@ -87,6 +91,23 @@ const questions = {
         message: "What is the employee's new role?",
         name: 'role',
         choices: [...roles],
+      },
+    ]);
+  },
+
+  updateManager: async function updateManager(employees, managers) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'Which employee do you want to update?',
+        name: 'employeeName',
+        choices: [...employees],
+      },
+      {
+        type: 'list',
+        message: "What is the employee's new manager?",
+        name: 'mName',
+        choices: [...managers],
       },
     ]);
   },
