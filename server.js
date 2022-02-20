@@ -52,12 +52,7 @@ async function init() {
         const employee = await qs.addEmployee(roles, managers);
         const roleID = await db.getRoleID(employee.role);
         const managerID = await db.getEmployeeID(employee.manager);
-        res = await fn.addEmployee(
-          db,
-          employee,
-          roleID,
-          managerID[0].id
-        );
+        res = await fn.addEmployee(db, employee, roleID, managerID[0].id);
         console.log(res);
         break;
       case 'Add role':
@@ -77,11 +72,7 @@ async function init() {
         let newList = await db.getNames();
         const updatedEmp = await qs.updateEmployee(newList, roles);
         const newRoleID = await db.getRoleID(updatedEmp.role);
-        res = await fn.updateEmployee(
-          db,
-          updatedEmp.employeeName,
-          newRoleID
-        );
+        res = await fn.updateEmployee(db, updatedEmp.employeeName, newRoleID);
         console.log(res);
         break;
       default:

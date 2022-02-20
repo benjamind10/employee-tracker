@@ -50,12 +50,7 @@ const fn = {
     return `Added department named ${departmentName}`;
   },
 
-  addEmployee: async function addEmployee(
-    db,
-    employee,
-    roleID,
-    managerID
-  ) {
+  addEmployee: async function addEmployee(db, employee, roleID, managerID) {
     const query =
       'INSERT into employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)';
     const args = [
