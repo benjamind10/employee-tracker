@@ -81,7 +81,7 @@ const fn = {
 
     const rows = await db.query(query, args);
     console.log('');
-    console.log(`${name} added.`);
+    return `${name} added.`;
   },
 
   removeEmployee: async function removeEmployee(db, employee) {

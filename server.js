@@ -18,7 +18,7 @@ async function init() {
   const managers = await db.getManagers();
   const roles = await db.getRoles();
   const employees = await db.getNames();
-  let rendered;
+  let res;
 
   // Defines a variable to keep the loop active
   let kill = false;
@@ -28,61 +28,61 @@ async function init() {
     // Switch statement listening for any selection
     switch (response.action) {
       case 'View all employees':
-        rendered = await fn.renderEmployees(db);
-        console.table(rendered);
+        res = await fn.renderEmployees(db);
+        console.table(res);
         break;
       case 'View all departments':
-        rendered = await fn.renderDepartments(db);
-        console.table(rendered);
+        res = await fn.renderDepartments(db);
+        console.table(res);
         break;
       case 'View all employees by department':
-        rendered = await fn.renderEmpDepartment(db);
-        console.table(rendered);
+        res = await fn.renderEmpDepartment(db);
+        console.table(res);
         break;
       case 'View all roles':
-        rendered = await fn.renderRoles(db);
-        console.table(rendered);
+        res = await fn.renderRoles(db);
+        console.table(res);
         break;
       case 'Add department':
         const newDepartment = await qs.getDepartment();
-        rendered = await fn.addDepartment(db, newDepartment);
-        console.log(rendered);
+        res = await fn.addDepartment(db, newDepartment);
+        console.log(res);
         break;
       case 'Add employee':
         const employee = await qs.addEmployee(roles, managers);
         const roleID = await db.getRoleID(employee.role);
         const managerID = await db.getEmployeeID(employee.manager);
-        rendered = await fn.addEmployee(
+        res = await fn.addEmployee(
           db,
           employee,
           roleID,
           managerID[0].id
         );
-        console.log(rendered);
+        console.log(res);
         break;
       case 'Add role':
         const departments = await db.getDptNames();
         const newDept = await qs.addRole(departments);
         const deptID = await db.getDeptID(newDept.departmentName);
-        fn.addRole(db, newDept, deptID);
+        res = await fn.addRole(db, newDept, deptID);
+        console.log(res);
         break;
       case 'Remove employee':
-        const delEmployee = await qs.deleteEmployee(employees);
-        rendered = await fn.removeEmployee(
-          db,
-          delEmployee.employeeName
-        );
-        console.log(rendered);
+        let updatedEmployees = await db.getNames();
+        const delEmployee = await qs.deleteEmployee(updatedEmployees);
+        res = await fn.removeEmployee(db, delEmployee.employeeName);
+        console.log(res);
         break;
       case 'Update employee role':
-        const updatedEmp = await qs.updateEmployee(employees, roles);
+        let newList = await db.getNames();
+        const updatedEmp = await qs.updateEmployee(newList, roles);
         const newRoleID = await db.getRoleID(updatedEmp.role);
-        rendered = await fn.updateEmployee(
+        res = await fn.updateEmployee(
           db,
           updatedEmp.employeeName,
           newRoleID
         );
-        console.log(rendered);
+        console.log(res);
         break;
       default:
         kill = true;
