@@ -113,7 +113,7 @@ const questions = {
   },
 
   addRole: async function addRole(deptNames) {
-    return inquirer.prompt([
+    return prompt([
       {
         type: 'input',
         message: 'What is the title of the new role?',
@@ -129,6 +129,17 @@ const questions = {
         message: 'Which department uses this role?',
         name: 'departmentName',
         choices: [...deptNames],
+      },
+    ]);
+  },
+
+  viewByManager: async function viewByManager(managers) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'View employees by manager:',
+        name: 'managerName',
+        choices: [...managers],
       },
     ]);
   },

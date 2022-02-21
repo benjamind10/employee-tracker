@@ -36,6 +36,16 @@ const fn = {
     return rows;
   },
 
+  renderEmpByManager: async function renderEmpByManager(db, managerID) {
+    const query =
+      'SELECT first_name, last_name FROM employees WHERE manager_id = ?;';
+    const params = [managerID];
+
+    const rows = await db.query(query, params);
+    console.log('');
+    return rows;
+  },
+
   addDepartment: async function addDepartment(db, newDapartment) {
     const departmentName = newDapartment.departmentName;
 

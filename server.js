@@ -91,6 +91,13 @@ async function init() {
         console.log(res);
         break;
 
+      case 'View by manager':
+        const managerSelected = await qs.viewByManager(managers);
+        const mangID = await db.getEmployeeID(managerSelected.managerName);
+        res = await fn.renderEmpByManager(db, mangID[0].id);
+        console.table(res);
+        break;
+
       default:
         kill = true;
         db.close();

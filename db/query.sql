@@ -40,3 +40,5 @@ SELECT role.id, role.title, role.salary, department.name AS department FROM role
         ORDER BY employees.id;
 
 SELECT e.first_name AS manager_fn, e.last_name AS manager_ln FROM employees AS e INNER JOIN employees AS e2 ON e.manager_id = e2.id;
+
+SELECT first_name, last_name FROM employees WHERE manager_id = ?;
