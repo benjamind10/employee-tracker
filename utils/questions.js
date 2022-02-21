@@ -14,7 +14,7 @@ const questions = {
           'View all departments',
           'View all roles',
           'View all employees',
-          'View all employees by department',
+          'View employees by department',
           'View by manager',
           'Add department',
           'Add role',

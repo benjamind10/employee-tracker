@@ -15,9 +15,7 @@ const db = new Database(config);
 
 // Function that initalizes app
 async function init() {
-  const managers = await db.getManagers();
-  const roles = await db.getRoles();
-  let res;
+  let managers, res, roleID, managerID, updatedEmployees, roles;
 
   // Defines a variable to keep the loop active
   let kill = false;
@@ -36,12 +34,13 @@ async function init() {
         console.table(res);
         break;
 
-      case 'View all employees by department':
+      case 'View employees by department':
         res = await fn.renderEmpDepartment(db);
         console.table(res);
         break;
 
       case 'View all roles':
+        roles = await db.getRoles();
         res = await fn.renderRoles(db);
         console.table(res);
         break;
@@ -53,9 +52,11 @@ async function init() {
         break;
 
       case 'Add employee':
+        roles = await db.getRoles();
+        managers = await db.getManagers();
         const employee = await qs.addEmployee(roles, managers);
-        const roleID = await db.getRoleID(employee.role);
-        const managerID = await db.getEmployeeID(employee.manager);
+        roleID = await db.getRoleID(employee.role);
+        managerID = await db.getEmployeeID(employee.manager);
         res = await fn.addEmployee(db, employee, roleID, managerID[0].id);
         console.log(res);
         break;
@@ -69,32 +70,38 @@ async function init() {
         break;
 
       case 'Remove employee':
-        let updatedEmployees = await db.getNames();
+        updatedEmployees = await db.getNames();
         const delEmployee = await qs.deleteEmployee(updatedEmployees);
         res = await fn.removeEmployee(db, delEmployee.employeeName);
         console.log(res);
         break;
 
       case 'Update employee role':
-        let newList = await db.getNames();
-        const updatedEmp = await qs.updateEmployee(newList, roles);
-        const newRoleID = await db.getRoleID(updatedEmp.role);
-        res = await fn.updateEmployee(db, updatedEmp.employeeName, newRoleID);
+        roles = await db.getRoles();
+        updatedEmployees = await db.getNames();
+        const updatedEmp = await qs.updateEmployee(updatedEmployees, roles);
+        roleID = await db.getRoleID(updatedEmp.role);
+        res = await fn.updateEmployee(db, updatedEmp.employeeName, roleID);
         console.log(res);
         break;
 
       case 'Update employee manager':
-        let cEmployees = await db.getNames();
-        const updated_employee = await qs.updateManager(cEmployees, managers);
-        const newManagerID = await db.getEmployeeID(updated_employee.mName);
-        res = await fn.updateManager(db, updated_employee, newManagerID);
+        managers = await db.getManagers();
+        updatedEmployees = await db.getNames();
+        const updated_employee = await qs.updateManager(
+          updatedEmployees,
+          managers
+        );
+        managerID = await db.getEmployeeID(updated_employee.mName);
+        res = await fn.updateManager(db, updated_employee, managerID);
         console.log(res);
         break;
 
       case 'View by manager':
+        managers = await db.getManagers();
         const managerSelected = await qs.viewByManager(managers);
-        const mangID = await db.getEmployeeID(managerSelected.managerName);
-        res = await fn.renderEmpByManager(db, mangID[0].id);
+        managerID = await db.getEmployeeID(managerSelected.managerName);
+        res = await fn.renderEmpByManager(db, managerID[0].id);
         console.table(res);
         break;
 

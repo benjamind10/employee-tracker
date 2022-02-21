@@ -1,7 +1,13 @@
 // Main object that holds async functions
 const fn = {
   renderEmployees: async function renderEmployees(db) {
-    const query = 'SELECT * FROM employees;';
+    const query = `
+    SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, e2.first_name AS manager_fn, e2.last_name AS manager_ln
+    FROM employees 
+        JOIN role ON role.id = employees.role_id 
+        JOIN department ON role.department_id = department.id 
+        LEFT JOIN employees AS e2 ON employees.manager_id = e2.id
+        ORDER BY employees.id;`;
 
     const rows = await db.query(query);
     console.log('');
@@ -23,13 +29,8 @@ const fn = {
   },
 
   renderEmpDepartment: async function renderEmployeeDepartment(db) {
-    const query = `   
-   SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, e2.first_name AS manager_fn, e2.last_name AS manager_ln
-    FROM employees 
-        JOIN role ON role.id = employees.role_id 
-        JOIN department ON role.department_id = department.id 
-        LEFT JOIN employees AS e2 ON employees.manager_id = e2.id
-        ORDER BY employees.id;`;
+    const query =
+      'SELECT first_name, last_name, department.name FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);';
 
     const rows = await db.query(query);
     console.log('');
@@ -96,6 +97,8 @@ const fn = {
     console.log('');
     return `Removed: ${employee}`;
   },
+
+  removeRole: async function removeRole(db, role) {},
 
   updateEmployee: async function updateEmployee(db, employee, role) {
     const name = employee.split(' ');
