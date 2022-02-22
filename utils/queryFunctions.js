@@ -37,7 +37,10 @@ const fn = {
     return rows;
   },
 
-  renderEmpByManager: async function renderEmpByManager(db, managerID) {
+  renderEmpByManager: async function renderEmpByManager(
+    db,
+    managerID
+  ) {
     const query =
       'SELECT id, first_name, last_name FROM employees WHERE manager_id = ?;';
     const params = [managerID];
@@ -58,7 +61,12 @@ const fn = {
     return `Added department named ${departmentName}`;
   },
 
-  addEmployee: async function addEmployee(db, employee, roleID, managerID) {
+  addEmployee: async function addEmployee(
+    db,
+    employee,
+    roleID,
+    managerID
+  ) {
     const query =
       'INSERT into employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)';
     const args = [
@@ -98,7 +106,13 @@ const fn = {
     return `Removed: ${employee}`;
   },
 
-  removeRole: async function removeRole(db, role) {},
+  removeRole: async function removeRole(db, role) {
+    const query = 'DELETE FROM role WHERE id = ?;';
+    const args = [role];
+    const rows = await db.query(query, args);
+    console.log('');
+    return 'Success.';
+  },
 
   updateEmployee: async function updateEmployee(db, employee, role) {
     const name = employee.split(' ');

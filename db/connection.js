@@ -1,4 +1,3 @@
-const credentials = require('../credentials');
 require('dotenv').config();
 
 const config = {

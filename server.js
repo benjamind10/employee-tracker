@@ -63,7 +63,12 @@ async function init() {
         const employee = await qs.addEmployee(roles, managers);
         roleID = await db.getRoleID(employee.role);
         managerID = await db.getEmployeeID(employee.manager);
-        res = await fn.addEmployee(db, employee, roleID, managerID[0].id);
+        res = await fn.addEmployee(
+          db,
+          employee,
+          roleID,
+          managerID[0].id
+        );
         console.log(res);
         break;
 
@@ -85,16 +90,26 @@ async function init() {
       case 'Update employee role':
         roles = await db.getRoles();
         updatedEmployees = await db.getNames();
-        currentEmployee = await qs.updateEmployee(updatedEmployees, roles);
+        currentEmployee = await qs.updateEmployee(
+          updatedEmployees,
+          roles
+        );
         roleID = await db.getRoleID(currentEmployee.role);
-        res = await fn.updateEmployee(db, currentEmployee.employeeName, roleID);
+        res = await fn.updateEmployee(
+          db,
+          currentEmployee.employeeName,
+          roleID
+        );
         console.log(res);
         break;
 
       case 'Update employee manager':
         managers = await db.getManagers();
         updatedEmployees = await db.getNames();
-        currentEmployee = await qs.updateManager(updatedEmployees, managers);
+        currentEmployee = await qs.updateManager(
+          updatedEmployees,
+          managers
+        );
         managerID = await db.getEmployeeID(currentEmployee.mName);
         res = await fn.updateManager(db, currentEmployee, managerID);
         console.log(res);
@@ -103,9 +118,19 @@ async function init() {
       case 'View by manager':
         managers = await db.getManagers();
         const managerSelected = await qs.viewByManager(managers);
-        managerID = await db.getEmployeeID(managerSelected.managerName);
+        managerID = await db.getEmployeeID(
+          managerSelected.managerName
+        );
         res = await fn.renderEmpByManager(db, managerID[0].id);
         console.table(res);
+        break;
+
+      case 'Remove role':
+        roles = await db.getRoles();
+        const delRole = await qs.deleteRole(roles);
+        const delRoleID = await db.getRoleID(delRole.roleName);
+        res = await fn.removeRole(db, delRoleID[0].id);
+        console.log(res);
         break;
 
       default:

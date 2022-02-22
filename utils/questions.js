@@ -21,7 +21,7 @@ const questions = {
           'Add employee',
           'Remove employee',
           'Remove department',
-          'Remove Role',
+          'Remove role',
           'Update employee role',
           'Update employee manager',
           'Exit',
@@ -74,6 +74,17 @@ const questions = {
         message: 'Which employee do you want to remove?',
         name: 'employeeName',
         choices: [...employees],
+      },
+    ]);
+  },
+
+  deleteRole: async function deleteRole(roles) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'Which role do you want to remove?',
+        name: 'roleName',
+        choices: [...roles],
       },
     ]);
   },
