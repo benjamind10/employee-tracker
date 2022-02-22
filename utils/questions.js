@@ -16,6 +16,7 @@ const questions = {
           'View all employees',
           'View employees by department',
           'View by manager',
+          'View budget by department',
           'Add department',
           'Add role',
           'Add employee',
@@ -85,6 +86,28 @@ const questions = {
         message: 'Which role do you want to remove?',
         name: 'roleName',
         choices: [...roles],
+      },
+    ]);
+  },
+
+  deleteDpt: async function deleteDpt(departments) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'Which department do you want to remove?',
+        name: 'deptName',
+        choices: [...departments],
+      },
+    ]);
+  },
+
+  budgetView: async function budgetView(departments) {
+    return prompt([
+      {
+        type: 'list',
+        message: 'View which departments budget?',
+        name: 'deptName',
+        choices: [...departments],
       },
     ]);
   },

@@ -28,7 +28,7 @@ INSERT into role (title, salary, department_id) VALUES (?,?,?);
 SELECT * FROM role;
 
 -- View employees by department
-SELECT first_name, last_name, department.name FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
+SELECT first_name, last_name, department.id FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
 
 SELECT role.id, role.title, role.salary, department.name AS department FROM role INNER JOIN department ON department.id = role.department_id;
 
@@ -42,3 +42,10 @@ SELECT role.id, role.title, role.salary, department.name AS department FROM role
 SELECT e.first_name AS manager_fn, e.last_name AS manager_ln FROM employees AS e INNER JOIN employees AS e2 ON e.manager_id = e2.id;
 
 SELECT first_name, last_name FROM employees WHERE manager_id = ?;
+
+SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department
+  FROM employees;
+
+SELECT * FROM employees ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
+
+SELECT role.salary AS base_salary, sum(role.salary) AS salary FROM employees JOIN role on role_id = role.id WHERE dept_id = 1;

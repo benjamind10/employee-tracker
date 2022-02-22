@@ -114,6 +114,14 @@ const fn = {
     return 'Success.';
   },
 
+  removeDept: async function removeDept(db, department) {
+    const query = 'DELETE FROM department WHERE id = ?;';
+    const args = [department];
+    const rows = await db.query(query, args);
+    console.log('');
+    return 'Success.';
+  },
+
   updateEmployee: async function updateEmployee(db, employee, role) {
     const name = employee.split(' ');
     const newRole = role[0].id;
@@ -136,6 +144,19 @@ const fn = {
     const rows = await db.query(query, args);
     console.log('');
     return `Updated: ${employee.employeeName}`;
+  },
+
+  viewBudget: async function viewBudget(db, department) {
+    const query =
+      'SELECT role.salary AS base_salary, sum(role.salary) AS salary FROM employees JOIN role on role_id = role.id WHERE dept_id = ?;';
+    const args = [department];
+    const dollarLocale = Intl.NumberFormat('en-US');
+
+    const rows = await db.query(query, args);
+    console.log('');
+    return `Total spent by this department: $${dollarLocale.format(
+      rows[0].salary
+    )}`;
   },
 };
 

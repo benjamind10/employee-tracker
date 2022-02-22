@@ -16,6 +16,7 @@ const db = new Database(config);
 // Function that initalizes app
 async function init() {
   let managers,
+    departments,
     res,
     roleID,
     managerID,
@@ -73,7 +74,7 @@ async function init() {
         break;
 
       case 'Add role':
-        const departments = await db.getDptNames();
+        departments = await db.getDptNames();
         const newDept = await qs.addRole(departments);
         const deptID = await db.getDeptID(newDept.departmentName);
         res = await fn.addRole(db, newDept, deptID);
@@ -130,6 +131,22 @@ async function init() {
         const delRole = await qs.deleteRole(roles);
         const delRoleID = await db.getRoleID(delRole.roleName);
         res = await fn.removeRole(db, delRoleID[0].id);
+        console.log(res);
+        break;
+
+      case 'Remove department':
+        departments = await db.getDptNames();
+        const delDept = await qs.deleteDpt(departments);
+        const delDeptID = await db.getDeptID(delDept.deptName);
+        res = await fn.removeDept(db, delDeptID[0].id);
+        console.log(res);
+        break;
+
+      case 'View budget by department':
+        departments = await db.getDptNames();
+        const selected = await qs.budgetView(departments);
+        const selectedID = await db.getDeptID(selected.deptName);
+        res = await fn.viewBudget(db, selectedID[0].id);
         console.log(res);
         break;
 
