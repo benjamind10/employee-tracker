@@ -31,6 +31,7 @@ CREATE TABLE employees (
     REFERENCES employees(id),
     FOREIGN KEY (dept_id)
     REFERENCES department(id)
+    ON UPDATE CASCADE
 );
 
 
