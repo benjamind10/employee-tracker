@@ -15,7 +15,13 @@ const db = new Database(config);
 
 // Function that initalizes app
 async function init() {
-  let managers, res, roleID, managerID, updatedEmployees, roles;
+  let managers,
+    res,
+    roleID,
+    managerID,
+    updatedEmployees,
+    roles,
+    currentEmployee;
 
   // Defines a variable to keep the loop active
   let kill = false;
@@ -79,21 +85,18 @@ async function init() {
       case 'Update employee role':
         roles = await db.getRoles();
         updatedEmployees = await db.getNames();
-        const updatedEmp = await qs.updateEmployee(updatedEmployees, roles);
-        roleID = await db.getRoleID(updatedEmp.role);
-        res = await fn.updateEmployee(db, updatedEmp.employeeName, roleID);
+        currentEmployee = await qs.updateEmployee(updatedEmployees, roles);
+        roleID = await db.getRoleID(currentEmployee.role);
+        res = await fn.updateEmployee(db, currentEmployee.employeeName, roleID);
         console.log(res);
         break;
 
       case 'Update employee manager':
         managers = await db.getManagers();
         updatedEmployees = await db.getNames();
-        const updated_employee = await qs.updateManager(
-          updatedEmployees,
-          managers
-        );
-        managerID = await db.getEmployeeID(updated_employee.mName);
-        res = await fn.updateManager(db, updated_employee, managerID);
+        currentEmployee = await qs.updateManager(updatedEmployees, managers);
+        managerID = await db.getEmployeeID(currentEmployee.mName);
+        res = await fn.updateManager(db, currentEmployee, managerID);
         console.log(res);
         break;
 

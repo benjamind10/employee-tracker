@@ -15,7 +15,7 @@ const fn = {
   },
 
   renderDepartments: async function renderDepartments(db) {
-    const query = ' SELECT * FROM department;';
+    const query = 'SELECT * FROM department;';
     const rows = await db.query(query);
     console.log('');
     return rows;
@@ -39,7 +39,7 @@ const fn = {
 
   renderEmpByManager: async function renderEmpByManager(db, managerID) {
     const query =
-      'SELECT first_name, last_name FROM employees WHERE manager_id = ?;';
+      'SELECT id, first_name, last_name FROM employees WHERE manager_id = ?;';
     const params = [managerID];
 
     const rows = await db.query(query, params);
