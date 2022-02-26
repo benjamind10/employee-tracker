@@ -2,6 +2,7 @@
 .vscode
 credentials.js
 package-lock.json
+db/query.sql
 
 # Logs
 logs

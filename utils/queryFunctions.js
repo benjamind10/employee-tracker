@@ -2,7 +2,8 @@
 const fn = {
   renderEmployees: async function renderEmployees(db) {
     const query = `
-    SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name AS department, e2.first_name AS manager_fn, e2.last_name AS manager_ln
+    SELECT employees.first_name, employees.last_name, role.title, role.salary, department.name 
+      AS department, e2.first_name AS manager_fn, e2.last_name AS manager_ln
     FROM employees 
         JOIN role ON role.id = employees.role_id 
         JOIN department ON role.department_id = department.id 
@@ -22,16 +23,21 @@ const fn = {
   },
 
   renderRoles: async function renderRoles(db) {
-    const query =
-      'SELECT role.id, role.title, role.salary, department.name AS department, department.id AS dept_id FROM role INNER JOIN department ON department.id = role.department_id;';
+    const query = `
+    SELECT role.id, role.title, role.salary, department.name 
+      AS department, department.id AS dept_id
+    FROM role INNER JOIN department ON department.id = role.department_id;`;
+
     const rows = await db.query(query);
     console.log('');
     return rows;
   },
 
   renderEmpDepartment: async function renderEmployeeDepartment(db) {
-    const query =
-      'SELECT first_name, last_name, department.name, department.id FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);';
+    const query = `
+    SELECT first_name, last_name, department.name, department.id
+      FROM ((employees INNER JOIN role ON role_id = role.id)
+      INNER JOIN department ON department_id = department.id);`;
 
     const rows = await db.query(query);
     console.log('');
@@ -68,8 +74,8 @@ const fn = {
     roleID,
     managerID
   ) {
-    const query =
-      'INSERT into employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)';
+    const query = `INSERT into employees (first_name, last_name, role_id, manager_id) 
+        VALUES(?,?,?,?)`;
     const args = [
       employee.first_name,
       employee.last_name,
