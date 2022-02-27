@@ -49,3 +49,5 @@ SELECT employees.first_name, employees.last_name, role.title, role.salary, depar
 SELECT * FROM employees ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id);
 
 SELECT role.salary AS base_salary, sum(role.salary) AS salary FROM employees JOIN role on role_id = role.id WHERE dept_id = 1;
+
+SELECT department.name, department.id, role.salary AS salary, sum(role.salary) AS salary_total FROM ((employees INNER JOIN role ON role_id = role.id) INNER JOIN department ON department_id = department.id) WHERE department.id = 1;
